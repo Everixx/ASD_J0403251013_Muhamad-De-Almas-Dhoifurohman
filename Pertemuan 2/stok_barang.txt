@@ -1,0 +1,7 @@
+BRG001,Mangga,80
+BRG002,Jeruk,50
+BRG003,Lemon,50
+BRG004,Apel,70
+BRG005,Sirsak,20
+BRG007,Semangka,35
+BRG008,Pisang,210
