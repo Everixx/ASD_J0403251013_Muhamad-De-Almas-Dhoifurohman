@@ -10,7 +10,7 @@
 NAMA_FILE = "stok_barang.txt"                                           # Nama file penyimpanan data stok barang
 
 # ==========================================================
-# MEMBACA DATA DARI FILE KE DICTIONARY
+# FUNGSI : MEMBACA DATA DARI FILE KE DICTIONARY
 # ==========================================================
 def load_stok(nama_file):
     stok_barang = {}                                                    # dictionary untuk menyimpan data stok
@@ -31,7 +31,7 @@ def load_stok(nama_file):
     return stok_barang
 
 # ==========================================================
-# MENAMPILKAN SEMUA STOK BARANG
+# FUNGSI : MENAMPILKAN SEMUA STOK BARANG
 # ==========================================================
 def tampilkan_semua_barang(stok_barang):
     if len(stok_barang) == 0:                                           # mengecek apakah dictionary kosong
@@ -48,7 +48,7 @@ def tampilkan_semua_barang(stok_barang):
         print(f"{kode:<10} | {nama:<20} | {stok:>5}")
 
 # ==========================================================
-# MENCARI BARANG BERDASARKAN KODE
+# FUNGSI : MENCARI BARANG BERDASARKAN KODE
 # ==========================================================
 def cari_barang(stok_barang):
     # input kode barang yang ingin dicari
@@ -64,7 +64,7 @@ def cari_barang(stok_barang):
         print("Barang tidak ditemukan.")                            # Jika kode tidak ada di dictionary
 
 # ==========================================================
-# MENAMBAH BARANG BARU
+# FUNGSI : MENAMBAH BARANG BARU
 # ==========================================================
 def tambah_barang(stok_barang):
     print("\n===== TAMBAH BARANG =====")
@@ -94,7 +94,7 @@ def tambah_barang(stok_barang):
     print(f"STOK : {stok}")
 
 # ==========================================================
-# UPDATE STOK BARANG
+# FUNGSI : UPDATE STOK BARANG
 # ==========================================================
 def update_stok(stok_barang):
 
@@ -138,7 +138,7 @@ def update_stok(stok_barang):
     print(f"Stok berhasil diupdate: {stok_lama} -> {stok_baru}")
 
 # ==========================================================
-# MENYIMPAN DATA KE FILE
+# FUNGSI : MENYIMPAN DATA KE FILE
 # ==========================================================
 def simpan_stok(nama_file, stok_barang):
     with open(nama_file, "w", encoding="utf-8") as file:                    # membuka file dalam mode tulis ("w")
@@ -150,7 +150,7 @@ def simpan_stok(nama_file, stok_barang):
     print("Data berhasil disimpan!")
 
 # ==========================================================
-# FUNGSI UTAMA (MENU PROGRAM)
+# FUNGSI : UTAMA (MENU PROGRAM)
 # ==========================================================
 def main():
 
