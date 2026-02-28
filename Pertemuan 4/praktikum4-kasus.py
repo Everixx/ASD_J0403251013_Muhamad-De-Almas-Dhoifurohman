@@ -1,114 +1,116 @@
 #=======================================================================================
-#Nama   : Muhamad De Almas Dhoifurohman
-#NIM    : J0403251013
-#Kelas  : TPL B2
+# Nama   : Muhamad De Almas Dhoifurohman
+# NIM    : J0403251013
+# Kelas  : TPL B/P2
 #=======================================================================================
 
-#=======================================================================================
-# Studi Lasus : Sistem Antrian Layanan Akademik
-# Implementasi Queue =>
-# Enque : Memindahkan pointer (menambah data  baru dari belakang)
-# Deque : Memindahkan pointer  front (menghapus data dari depan)
-# Stack ==> Front -> C -> B -> A -> None
-# Front -> A -> B -> Rear 
+# ==========================================================
+# Tugas Hands-On: Sistem Antrian Bengkel Motor
+# ==========================================================
 
-# Makhluk datang  = enqueue
-# Makhluk keluar =  dequeue
-#=======================================================================================
-
-#1) Mendefinisikan Node (unit dasar linked list)
+# Class Node merepresentasikan satu data pelanggan dalam antrian
 class Node:
-    def __init__(self,nim,nama):
-        self.nim  = nim #menyimpan nim mahasiswa
-        self.nama = nama #menyimpan nama mahasiswa
-        self.next = None#pointer ke node berikutnya
+    def __init__(self, no, nama, servis):
+        self.nomor = no         # Nomor antrian
+        self.nama = nama        # Nama pelanggan
+        self.servis = servis    # Jenis layanan servis
+        self.next = None        # Pointer ke node selanjutnya
 
-#2) Mendefinisikan queue, terdiri dari front dan rear
-class queueAkademik:
+
+# Class QueueBengkel mengatur antrian menggunakan Linked List
+class QueueBengkel:
     def __init__(self):
-        self.front = None
-        self.rear = None
-    
-    def is_empty(self):
-        # Ketika queue kosong maka front = rear = none
-        return self.front is None
-    
-    # Menambahkan data baru ke bagian bealakang (rear) => menambahkan antrian mahasiswa yang akan mengajukan layanan akademik
-    def enqueue(self,nim,nama):
-        nodeBaru = Node(nim,nama)
-        # Jika data baru masuk daari queue yang kosong maka data baru = front = rear
-        if self.is_empty():
-            self.front = nodeBaru
-            self.rear = nodeBaru
-            return
-        # Jika queue tidak kosong, maka data baru diletakan setelah rear kemudian dijadikan sebagai rear
-        self.rear.next = nodeBaru
-        self.rear = nodeBaru
+        self.front = None   # Menunjuk ke pelanggan paling depan (FIFO)
+        self.rear = None    # Menunjuk ke pelanggan paling belakang
 
-    # Menghapus data paling depan (memberikan layanan akademik)
-    def dequeue(self):
-
-        if self.is_empty():
-            print("Antrian Kosong. Tidak ada Mahasiswa yang dilayani")
-            return None
-
-        # Lihat data bagian front, simpan di variabel data yang akan dihapus (dilayani)
-        node_dilayani = self.front
-
-        # Geser pointer dront ke next front
-        self.front = self.front.next
-
-        # Jika front menjadi none(data antrian terakhir yang dilayani) maka front = rear = none
-        if self.front is None:
-            self.rear=None
-
-        return node_dilayani
-     
-    def tampilkan(self):
-
-        print("Daftar Antrian Mahasiswa (Front -> Rear) : ")
-        current = self.front
-        no = 1
-        while current is not None:
-            print(f"{no}. {current.nim} - {current.nama}")
-            current = current.next 
-            no += 1
-
-# Program utama
-def main():
-    #instantiasi queue
-    q = queueAkademik()
-
-    while True:
-        print("===== Sistem Antrian Akademik =====")
-        print("1. Tambah Mahasiswa")
-        print("2. Layani Mahasiswa")
-        print("3. Layani Antrian")
-        print("4. Keluar")
-
-        pilihan = input ("Pilih Menu(1-4) : ").strip()
-        if pilihan == "1":
-            nim = input ("Masukan NIM : ").strip()
-            nama = input ("Masukan Nama : ").strip()
-
-            q.enqueue(nim,nama)
-            print("Mahasiswa Berhasil Ditambhkan ke antrian")
+    # Method untuk menambahkan pelanggan ke dalam antrian (enqueue)
+    def enqueue(self, no, nama, servis):
+        baru = Node(no, nama, servis)  # Membuat node pelanggan baru
         
-        elif pilihan == "2":
-            dilayani = q.dequeue()
-            if dilayani is not None:
-                print(f"Mahasiswa Dilayani : {dilayani.nim} - {dilayani.nama}")
-
-        elif pilihan == "3":
-            q.tampilkan()
-
-        elif pilihan == "4":
-            print("Program selesai. Terima Kasih")
-            break
-
+        # Jika antrian masih kosong
+        if self.rear is None:
+            self.front = self.rear = baru
         else:
-            print("Pilihan tidak valid. Silahkan coba lagi 1-4")
+            # Menghubungkan node terakhir ke node baru
+            self.rear.next = baru
+            self.rear = baru
+        
+        print("Pelanggan berhasil masuk ke antrian.")
 
-# Menentukan
+    # Method untuk melayani pelanggan terdepan (dequeue)
+    def dequeue(self):
+        # Jika tidak ada pelanggan
+        if self.front is None:
+            print("Antrian kosong. Tidak ada yang bisa dilayani.")
+            return
+        
+        # Ambil pelanggan terdepan
+        layani = self.front
+        
+        # Pindahkan front ke node berikutnya
+        self.front = self.front.next
+        
+        # Jika setelah dilayani antrian menjadi kosong
+        if self.front is None:
+            self.rear = None
+        
+        print("\nSedang melayani pelanggan:")
+        print(f"No. Antrian : {layani.no}")
+        print(f"Nama        : {layani.nama}")
+        print(f"Servis      : {layani.servis}")
+
+    # Method untuk menampilkan seluruh isi antrian (traversal)
+    def tampilkan(self):
+        # Jika belum ada pelanggan
+        if self.front is None:
+            print("Antrian masih kosong.")
+            return
+        
+        print("\n=== Daftar Antrian Saat Ini ===")
+        current = self.front   # Mulai dari pelanggan paling depan
+        
+        # Menelusuri hingga node terakhir
+        while current:
+            print("--------------------------")
+            print(f"No. Antrian : {current.no}")
+            print(f"Nama        : {current.nama}")
+            print(f"Servis      : {current.servis}")
+            current = current.next
+
+
+# Fungsi utama program
+def main():
+    q = QueueBengkel()
+    
+    while True:
+        print("\n=== Sistem Antrian Bengkel ===")
+        print("1. Tambah Pelanggan")
+        print("2. Layani Pelanggan")
+        print("3. Lihat Antrian")
+        print("4. Keluar")
+        
+        pilih = input("Pilih menu: ")
+        
+        if pilih == "1":
+            no = input("No. Antrian : ")
+            nama = input("Nama       : ")
+            servis = input("Servis     : ")
+            q.enqueue(no, nama, servis)
+        
+        elif pilih == "2":
+            q.dequeue()
+        
+        elif pilih == "3":
+            q.tampilkan()
+        
+        elif pilih == "4":
+            print("Program selesai. Terima kasih sudah menggunakan sistem.")
+            break
+        
+        else:
+            print("Menu tidak tersedia.")
+
+
+# Menjalankan program
 if __name__ == "__main__":
     main()
